@@ -3,7 +3,10 @@ cmake_minimum_required(VERSION 2.8)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 add_library(sqlite3 STATIC src/sqlite3.c src/sqlite3.h src/sqlite3ext.h)
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread -fPIC" )
+target_link_libraries(sqlite3 dl m)
 add_executable(sqlite src/sqlite3.c src/shell.c src/sqlite3.h src/sqlite3ext.h)
+target_link_libraries(sqlite dl m)
 set_target_properties(sqlite PROPERTIES OUTPUT_NAME sqlite3)
 
 add_definitions(-DSQLITE_ENABLE_RTREE)
